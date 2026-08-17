@@ -48,6 +48,7 @@ autoprocess-biz/src/main/resources/
 - ServiceImpl 才能调用 Mapper 或其他 Service 接口。
 - Mapper 接口放在 `autoprocess-biz`，SQL 放在 `mapper_autoprocess/*.xml`。
 - 当前实现类只保留基础占位，具体业务逻辑由后续开发补充。
+- `autoprocess-server` 已启用统一请求日志过滤器，所有 HTTP 请求会记录方法、路径、状态码、耗时、来源 IP 和当前用户。
 
 ## 构建
 

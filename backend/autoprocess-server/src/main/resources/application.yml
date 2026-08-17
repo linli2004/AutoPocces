@@ -25,4 +25,4 @@ app:
     # 密钥：至少32字节（256位），使用环境变量占位，不在配置文件硬编码
     secret: ${JWT_SECRET:defaultDevSecretKeyMustBe32BytesLong!}
     # 过期时间：单位毫秒，这里配置为 7 天
-    expire-seconds: 604800000
+    expire-seconds: 604800

@@ -1,7 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
-
 export default defineConfig({
   plugins: [vue()],
   resolve: {
@@ -11,6 +10,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      '/auth': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
       '/connectors': {
         target: 'http://localhost:8080',
         changeOrigin: true,

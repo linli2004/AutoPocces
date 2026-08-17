@@ -36,6 +36,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public SysUser findById(String userId) {
+        return sysUserMapper.selectById(userId);
+    }
+
+    @Override
     public SysUser currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !(authentication.getPrincipal() instanceof SysUser sysUser)) {
