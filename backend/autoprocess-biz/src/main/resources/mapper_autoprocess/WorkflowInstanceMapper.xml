@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autoprocess.mapper.WorkflowInstanceMapper">
+
+    <!-- Workflow instance result mapping. -->
+    <resultMap id="BaseResultMap" type="com.autoprocess.entity.WorkflowInstance">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="workflow_id" jdbcType="VARCHAR" property="workflowId"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="context_json" jdbcType="LONGVARCHAR" property="contextJson"/>
+        <result column="current_node_id" jdbcType="VARCHAR" property="currentNodeId"/>
+        <result column="started_at" jdbcType="TIMESTAMP" property="startedAt"/>
+        <result column="finished_at" jdbcType="TIMESTAMP" property="finishedAt"/>
+        <result column="error_message" jdbcType="VARCHAR" property="errorMessage"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, workflow_id, status, context_json, current_node_id, started_at, finished_at, error_message
+    </sql>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from workflow_instance
+        order by started_at desc
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from workflow_instance
+        where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.autoprocess.entity.WorkflowInstance">
+        insert into workflow_instance
+        (id, workflow_id, status, context_json, current_node_id, started_at, finished_at, error_message)
+        values
+        (#{id}, #{workflowId}, #{status}, #{contextJson}, #{currentNodeId}, #{startedAt}, #{finishedAt}, #{errorMessage})
+    </insert>
+
+    <update id="updateRuntimeState" parameterType="com.autoprocess.entity.WorkflowInstance">
+        update workflow_instance
+        set status = #{status},
+            context_json = #{contextJson},
+            current_node_id = #{currentNodeId},
+            finished_at = #{finishedAt},
+            error_message = #{errorMessage}
+        where id = #{id}
+    </update>
+</mapper>

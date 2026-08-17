@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autoprocess.mapper.ConnectorActionMapper">
+
+    <!-- Connector action result mapping. -->
+    <resultMap id="BaseResultMap" type="com.autoprocess.entity.ConnectorAction">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="connector_id" jdbcType="VARCHAR" property="connectorId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="action_key" jdbcType="VARCHAR" property="actionKey"/>
+        <result column="method" jdbcType="VARCHAR" property="method"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="input_schema" jdbcType="LONGVARCHAR" property="inputSchema"/>
+        <result column="output_schema" jdbcType="LONGVARCHAR" property="outputSchema"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, connector_id, name, action_key, method, path, input_schema, output_schema
+    </sql>
+
+    <select id="selectByConnectorId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from connector_action
+        where connector_id = #{connectorId}
+        order by name
+    </select>
+
+    <select id="selectByActionKeyAndConnector" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from connector_action
+        where action_key = #{actionKey} and connector_id = #{connectorId}
+    </select>
+
+</mapper>

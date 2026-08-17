@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: autoprocess-server
+  profiles:
+    active: dev
+  jackson:
+    time-zone: Asia/Shanghai
+    default-property-inclusion: non_null
+
+mybatis:
+  mapper-locations: classpath*:mapper_autoprocess/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com.autoprocess: info
+
+
+app:
+  jwt:
+    # 密钥：至少32字节（256位），使用环境变量占位，不在配置文件硬编码
+    secret: ${JWT_SECRET:defaultDevSecretKeyMustBe32BytesLong!}
+    # 过期时间：单位毫秒，这里配置为 7 天
+    expire-seconds: 604800000

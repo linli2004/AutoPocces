@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autoprocess.mapper.EventRecordMapper">
+
+    <!-- Event gateway receiving record mapping. -->
+    <resultMap id="BaseResultMap" type="com.autoprocess.entity.EventRecord">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="workflow_id" jdbcType="VARCHAR" property="workflowId"/>
+        <result column="event_key" jdbcType="VARCHAR" property="eventKey"/>
+        <result column="payload_json" jdbcType="LONGVARCHAR" property="payloadJson"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, workflow_id, event_key, payload_json, status, created_at
+    </sql>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from event_record
+        order by created_at desc
+    </select>
+
+    <insert id="insert" parameterType="com.autoprocess.entity.EventRecord">
+        insert into event_record
+        (id, workflow_id, event_key, payload_json, status, created_at)
+        values
+        (#{id}, #{workflowId}, #{eventKey}, #{payloadJson}, #{status}, #{createdAt})
+    </insert>
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autoprocess.mapper.ApprovalTaskMapper">
+
+    <!-- Approval task result mapping. -->
+    <resultMap id="BaseResultMap" type="com.autoprocess.entity.ApprovalTask">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="instance_id" jdbcType="VARCHAR" property="instanceId"/>
+        <result column="node_id" jdbcType="VARCHAR" property="nodeId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="assignee" jdbcType="VARCHAR" property="assignee"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="form_data_json" jdbcType="LONGVARCHAR" property="formDataJson"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="handled_at" jdbcType="TIMESTAMP" property="handledAt"/>
+        <result column="comment" jdbcType="VARCHAR" property="comment"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, instance_id, node_id, title, assignee, status, form_data_json, created_at, handled_at, comment
+    </sql>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from approval_task
+        order by created_at desc
+    </select>
+
+    <select id="selectByStatus" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from approval_task
+        where status = #{status}
+        order by created_at desc
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from approval_task
+        where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.autoprocess.entity.ApprovalTask">
+        insert into approval_task
+        (id, instance_id, node_id, title, assignee, status, form_data_json, created_at, handled_at, comment)
+        values
+        (#{id}, #{instanceId}, #{nodeId}, #{title}, #{assignee}, #{status}, #{formDataJson}, #{createdAt}, #{handledAt}, #{comment})
+    </insert>
+
+    <update id="updateHandleResult" parameterType="com.autoprocess.entity.ApprovalTask">
+        update approval_task
+        set status = #{status},
+            handled_at = #{handledAt},
+            comment = #{comment}
+        where id = #{id}
+    </update>
+</mapper>

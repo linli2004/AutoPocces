@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autoprocess.mapper.SysUserMapper">
+    <resultMap id="BaseResultMap" type="com.autoprocess.entity.SysUser">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password_hash" jdbcType="VARCHAR" property="passwordHash"/>
+        <result column="display_name" jdbcType="VARCHAR" property="displayName"/>
+        <result column="role" jdbcType="VARCHAR" property="role"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, username, password_hash, display_name, role, status, created_at, updated_at
+    </sql>
+    <insert id="insert">
+        insert into sys_user
+        (id, username, password_hash, display_name, role, status, created_at, updated_at)
+        values
+            (#{id}, #{username}, #{passwordHash}, #{displayName}, #{role}, #{status}, #{createdAt}, #{updatedAt})
+    </insert>
+    <update id="updateStatus">
+        update sys_user
+        set status = #{status}, updated_at = #{updatedAt}
+        where id = #{id}
+    </update>
+    <select id="selectById" resultType="com.autoprocess.entity.SysUser">
+        select <include refid="Base_Column_List"/>
+        from sys_user
+        where id = #{id}
+    </select>
+    <select id="selectByUsername" resultType="com.autoprocess.entity.SysUser">
+        select <include refid="Base_Column_List"/>
+        from sys_user
+        where username = #{username}
+    </select>
+    <select id="selectList" resultType="com.autoprocess.entity.SysUser">
+        select <include refid="Base_Column_List"/>
+        from sys_user order by created_at desc
+    </select>
+
+</mapper>

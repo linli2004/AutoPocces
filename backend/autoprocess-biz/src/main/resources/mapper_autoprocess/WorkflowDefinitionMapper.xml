@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autoprocess.mapper.WorkflowDefinitionMapper">
+
+    <!-- Workflow definition result mapping. -->
+    <resultMap id="BaseResultMap" type="com.autoprocess.entity.WorkflowDefinition">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="workflow_key" jdbcType="VARCHAR" property="workflowKey"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="definition_json" jdbcType="LONGVARCHAR" property="definitionJson"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, workflow_key, name, description, status, version, definition_json, created_at, updated_at
+    </sql>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from workflow_definition
+        order by updated_at desc
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from workflow_definition
+        where id = #{id}
+    </select>
+
+    <select id="selectByWorkflowKey" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from workflow_definition
+        where workflow_key = #{workflowKey}
+    </select>
+
+    <insert id="insert" parameterType="com.autoprocess.entity.WorkflowDefinition">
+        insert into workflow_definition
+        (id, workflow_key, name, description, status, version, definition_json, created_at, updated_at)
+        values
+        (#{id}, #{workflowKey}, #{name}, #{description}, #{status}, #{version}, #{definitionJson}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <update id="update" parameterType="com.autoprocess.entity.WorkflowDefinition">
+        update workflow_definition
+        set workflow_key = #{workflowKey},
+            name = #{name},
+            description = #{description},
+            status = #{status},
+            version = #{version},
+            definition_json = #{definitionJson},
+            updated_at = #{updatedAt}
+        where id = #{id}
+    </update>
+
+    <update id="updateStatus" parameterType="com.autoprocess.entity.WorkflowDefinition">
+        update workflow_definition
+        set status = #{status},
+            updated_at = #{updatedAt}
+        where id = #{id}
+    </update>
+</mapper>
